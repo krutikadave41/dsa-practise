@@ -16,19 +16,18 @@ public class GroupAnagrams {
 	}
 
 	public List<List<String>> groupAnagrams(String[] strs) {
-		Map<String, List<String>> map = new HashMap<>();
+		HashMap<String, List<String>> map = new HashMap<>();
 		for (String str : strs) {
-			int[] count = new int[26];
-			for (char c : str.toCharArray()) {
-				count[c - 'a']++;
+			char[] keyArr = str.toCharArray();
+			Arrays.sort(keyArr);
+			String key = new String(keyArr);
+			if (map.containsKey(key)) {
+				map.get(key).add(str);
+			} else {
+				List<String> newList = new ArrayList<>();
+				newList.add(str);
+				map.put(key, newList);
 			}
-
-			String key = Arrays.toString(count);
-
-			if (!map.containsKey(key)) {
-				map.put(key, new ArrayList<String>());
-			}
-			map.get(key).add(str);
 		}
 		return new ArrayList<>(map.values());
 	}
